@@ -373,30 +373,6 @@ h1 {
     gap: 8px;
 }
 
-.hosting {
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.hosting[data-host="drachenplasma"] {
-    background: rgb(255, 255, 255);
-    color: #0015ff;
-}
-
-.hosting[data-host="yxs"] {
-    background: rgba(0, 0, 0, 1);
-    color: #ff8000;
-}
-
-.hosting[data-host="gsv2"] {
-    background: rgb(0, 0, 0);
-    color: #006eff;
-}
-
 .tile-description {
     font-size: 0.9rem;
     color: #ffffff;
