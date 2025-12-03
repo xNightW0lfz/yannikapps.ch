@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Domain Übersicht | YannikApps</title>
+  <meta name="description" content="Übersicht der von Yannik Schluep genutzten Domains." />
+  <link rel="canonical" href="https://yannikapps.ch/domains/" />
+  <link rel="icon" type="image/png" href="https://cdn.yannikapps.ch/fav/ya.png">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --text-color: #111827;
+      --muted-text: #4b5563;
+      --border: #e5e7eb;
+      --light-bg: #f3f4f6;
+      --white: #ffffff;
+
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.12);
+
+      --ring: 0 0 0 3px rgba(37, 99, 235, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: radial-gradient(circle at top, #e5edff 0, var(--light-bg) 45%, #e5e7eb 100%);
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      color: var(--primary-color);
+      line-height: 1.25;
+      margin: 0 0 var(--space-4);
+    }
+
+    h1 {
+      font-size: clamp(1.9rem, 3vw, 2.4rem);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+    }
+
+    h3 {
+      font-size: 1.05rem;
+    }
+
+    p {
+      margin: 0 0 var(--space-4);
+      color: var(--muted-text);
+      font-size: 1rem;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    a:focus-visible {
+      outline: none;
+      box-shadow: var(--ring);
+      border-radius: 6px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-6);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      position: relative;
+      padding-bottom: calc(var(--space-10) + env(safe-area-inset-bottom));
+    }
+
+    header {
+      text-align: center;
+      padding: var(--space-6) 0 var(--space-4);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-2);
+    }
+
+    header .subtitle {
+      margin-top: var(--space-2);
+      font-size: 0.95rem;
+      color: var(--muted-text);
+    }
+
+    .last-updated {
+      color: #6b7280;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .content {
+      background: var(--white);
+      padding: var(--space-6);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-md);
+      margin: var(--space-2) 0 0;
+    }
+
+    .status {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: var(--space-4);
+    }
+
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-2);
+    }
+
+    .domain-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .domain-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .domain-name {
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .domain-label {
+      font-size: 0.9rem;
+      color: var(--muted-text);
+    }
+
+    footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      padding: var(--space-6) 0;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    .site-back-button {
+      position: fixed;
+      left: 50%;
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      background: var(--primary-color);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: var(--shadow-md);
+      z-index: 1000;
+      white-space: nowrap;
+      transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .site-back-button:hover {
+      background: var(--secondary-color);
+      transform: translateX(-50%) scale(1.03);
+      text-decoration: none;
+    }
+
+    .site-back-button:focus-visible {
+      outline: none;
+      box-shadow: var(--ring), var(--shadow-md);
+    }
+
+    @media (max-width: 767px) {
+      body {
+        font-size: 16px;
+      }
+
+      .container {
+        padding: var(--space-5);
+      }
+
+      header {
+        padding: var(--space-5) 0 var(--space-3);
+      }
+
+      .content {
+        padding: var(--space-5);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: var(--space-8);
+      }
+
+      .content {
+        padding: var(--space-8);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .domain-card:hover {
+        transform: none;
+      }
+
+      .site-back-button:hover {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Domain-Übersicht</h1>
+      <p class="subtitle">
+        Diese Seite listet Domains auf, die von Yannik Schluep verwaltet und genutzt werden.
+      </p>
+      <p class="last-updated">Stand: November 2025</p>
+    </header>
+
+    <main class="content">
+      <h2>Domains</h2>
+      <p class="status" id="status">
+        Domains werden aus der aktuellen Liste geladen …
+      </p>
+
+      <div id="domain-grid" class="domain-grid" aria-live="polite"></div>
+    </main>
+
+    <footer>
+      <p>
+        Für rechtliche Informationen (Impressum, Datenschutz, Nutzungsbedingungen) siehe
+        <a href="/legal/">yannikapps.ch/legal</a>.
+      </p>
+    </footer>
+
+    <a href="/legal/" class="site-back-button">← Zurück zur Legalinfo-Übersicht</a>
+  </div>
+
+  <!-- Google-Sheets-Import über gviz JSON (kein CORS-Problem) -->
+  <script>
+    // Wichtig: Das Sheet muss mindestens "Jeder mit dem Link darf ansehen" haben
+    const GVIZ_URL =
+      "https://docs.google.com/spreadsheets/d/1gg5CxhN6GWeuetxw0yOFZHw8-yJmSH_wTAgvKrC9jqg/gviz/tq?tqx=out:json";
+
+    const statusElement = document.getElementById("status");
+    const gridElement = document.getElementById("domain-grid");
+
+    // Hilfsfunktion zum Erstellen einer Karte
+    function createCard(domain, label) {
+      const article = document.createElement("article");
+      article.className = "domain-card";
+
+      const h3 = document.createElement("h3");
+      h3.className = "domain-name";
+
+      const link = document.createElement("a");
+      const cleanDomain = (domain || "").trim();
+      const hasProtocol = /^https?:\/\//i.test(cleanDomain);
+      const url = hasProtocol ? cleanDomain : "https://" + cleanDomain;
+
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = cleanDomain;
+
+      h3.appendChild(link);
+      article.appendChild(h3);
+
+      if (label) {
+        const p = document.createElement("p");
+        p.className = "domain-label";
+        p.textContent = label;
+        article.appendChild(p);
+      }
+
+      return article;
+    }
+
+    // Wir "hooken" die Standard-Callback-Funktion der gviz-API
+    window.google = window.google || {};
+    google.visualization = google.visualization || {};
+    google.visualization.Query = google.visualization.Query || {};
+    google.visualization.Query.setResponse = function (response) {
+      try {
+        const table = response.table;
+        const rows = table.rows || [];
+
+        gridElement.innerHTML = "";
+
+        let count = 0;
+
+        rows.forEach(row => {
+          if (!row.c) return;
+
+          const col0 = row.c[0] ? row.c[0].v : null; // Domain
+          const col1 = row.c[1] ? row.c[1].v : null; // Titel/Kurzbeschreibung
+
+          if (!col0) return;
+
+          // sara18.ch explizit rausfiltern, egal ob mit/ohne https
+          const rawDomain = String(col0).trim().replace(/^https?:\/\//i, "").toLowerCase();
+          if (rawDomain === "sara18.ch") return;
+
+          const card = createCard(String(col0), col1 ? String(col1) : "");
+          gridElement.appendChild(card);
+          count++;
+        });
+
+        statusElement.textContent = count
+          ? "Liste geladen."
+          : "Keine Domains in der Liste gefunden.";
+      } catch (e) {
+        console.error("Fehler beim Verarbeiten der Sheet-Daten:", e);
+        statusElement.textContent =
+          "Die Domain-Liste konnte nicht verarbeitet werden.";
+      }
+    };
+
+    // Lädt das gviz-Script als JSONP
+    function loadDomains() {
+      statusElement.textContent = "Domains werden geladen …";
+
+      const script = document.createElement("script");
+      script.src = GVIZ_URL;
+      script.async = true;
+      script.onerror = function () {
+        statusElement.textContent =
+          "Die Domain-Liste konnte nicht geladen werden. Bitte später erneut versuchen.";
+      };
+      document.body.appendChild(script);
+    }
+
+    loadDomains();
+  </script>
+</body>
+</html>
