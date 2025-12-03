@@ -230,7 +230,7 @@ async function initTilesFromSheet() {
         const container = document.getElementById('tilesContainer');
         if (container) {
             container.innerHTML =
-                '<p class="no-tiles-message">Fehler beim Laden der Nebenprojekte.</p>';
+                '<p class="no-tiles-message">Nebenprojekte werden geladen ...</p>';
         }
     }
 }
