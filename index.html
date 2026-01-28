@@ -4,21 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>YannikApps | Yannik Schluep</title>
-    <meta name="description" content="YannikApps - die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Discord Bot, ein Glücksrad und vieles mehr." />
+    <meta name="description" content="YannikApps – die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Glücksrad und ISO Downloads."/>
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://yannikapps.ch/" />
     <meta name="keywords" content="yannik schluep, yannik, schluep, yannikapps, yannikapps.ch, yannik-schluep.com, drachenplasma, drachenplasma.ch">
     <link rel="icon" type="image/png" href="https://ys.cdndata.top/fav/ya.png" />
     <meta property="og:title" content="YannikApps | Yannik Schluep" />
-    <meta property="og:description" content="YannikApps – die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Discord Bot, ein Glücksrad und vieles mehr." />
+    <meta property="og:description" content="YannikApps – die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Glücksrad und ISO Downloads." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://yannikapps.ch/" />
-    <meta property="og:image" content="https://ys.cdndata.top/ya.png" />
+    <meta property="og:image" content="https://ys.cdndata.top/ya/yannikapps.png" />
     <meta property="og:site_name" content="YannikApps" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="YannikApps | Yannik Schluep" />
-    <meta name="twitter:description" content="YannikApps – die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Discord Bot, ein Glücksrad und vieles mehr." />
-    <meta name="twitter:image" content="https://ys.cdndata.top/ya.png" />
+    <meta name="twitter:description" content="YannikApps – die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Glücksrad und ISO Downloads."/>
+    <meta name="twitter:image" content="https://ys.cdndata.top/ya/yannikapps.png" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -27,11 +27,11 @@
       "url": "https://yannikapps.ch",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://ys.cdndata.top/ya.png",
-        "width": 400,
-        "height": 400
+        "url": "https://ys.cdndata.top/ya/yannikapps.png",
+        "width": 1536,
+        "height": 1024
       },
-      "description": "YannikApps - die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Discord Bot, ein Glücksrad und vieles mehr.",
+      "description": "YannikApps – die Übersicht der Projekte von Yannik Schluep, unter anderem eine persönliche Website, ein Glücksrad und ISO Downloads.",
       "address": {
         "@type": "PostalAddress",
         "addressCountry": "CH"
@@ -53,11 +53,12 @@
     </script>
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/image-loading.css" />
-    <script src="js/background.js" onload="window.initializeBackground()"></script>
-    <script src="js/rain.js" onload="window.initializeRain()"></script>
-    <script src="js/stars.js" onload="window.initializeStars()"></script>
+    <script src="bg.js/sun-rain.js"></script>
+    <script src="bg.js/cyberpunk.js"></script>
+    <script src="bg.js/minimal.js"></script>
+    <script src="bg.js/wireframe.js"></script>
     <script src="js/script.js" defer></script>
-    <script src="js/image-loader.js" defer></script>
+
 </head>
 <body>
 
@@ -76,49 +77,40 @@
             <h2>Hauptprojekte</h2>
             <div class="tiles">
 
-             <!-- Yannik Schluep -->
-            <a href="https://yannik-schluep.com" class="tile">
-                <img src="https://ys.cdndata.top/ya/yannik-schluep.png" alt="Yannik Schluep" class="tile-image">
+            <!-- Yannik Schluep -->
+            <a href="https://yannik-schluep.com" class="tile" style="position: relative; z-index: 1; overflow: visible;">
+                <div style="position: relative; height: 100%; border-radius: 42.2px; overflow: hidden; box-shadow: 0 0 25px 15px rgba(232, 155, 39, 0.3);">
+                    <img src="https://ys.cdndata.top/ya/yannik-schluep.png" alt="Yannik-Schluep" class="tile-image" style="border-radius: 42.2px 42.2px 0 0;">
                 <div class="tile-content">
                     <div class="tile-header">
                         <div class="tile-title">Yannik Schluep</div>
-                        <span class="tile-status"></span>
                     </div>
                     <div class="tile-description">Eine Website mit Infos zu mir</div>
                 </div>
-            </a>
-
-             <!--  CDNData -->
-            <a href="https://cdndata.ch" class="tile">
-                <img src="https://assets.cdndata.top/logo.png" alt="CDNData" class="tile-image">
-                <div class="tile-content">
-                    <div class="tile-header">
-                        <div class="tile-title">CDNData</div>
-                        <span class="tile-status"></span>
-                    </div>
-                    <div class="tile-description">CDN-Hosting aus der Schweiz</div>
                 </div>
             </a>
 
-             <!-- GSv2 Kiksi -->
-            <a href="https://kiksi.gsv2.com" class="tile">
-                <img src="https://ys.cdndata.top/ya/kiksi.png" alt="Kiksi" class="tile-image">
+            <!-- CDNData -->
+            <a href="https://cdndata.ch" class="tile" style="position: relative; z-index: 1; overflow: visible;">
+                <div style="position: relative; height: 100%; border-radius: 42.2px; overflow: hidden; box-shadow: 0 0 25px 15px rgba(232, 39, 39, 0.3);">
+                    <img src="https://assets.cdndata.top/logo.png" alt="CDNData" class="tile-image" style="border-radius: 42.2px 42.2px 0 0;">
                 <div class="tile-content">
                     <div class="tile-header">
-                        <div class="tile-title">Kiksi</div>
+                        <div class="tile-title">CDNData</div>
                     </div>
-                    <div class="tile-description">Ein Gratis Discord Bot von GSv2</div>
+                    <div class="tile-description">CDN-Hosting aus der Schweiz</div>
+                </div>
                 </div>
             </a>
 
             <!-- Drachenplasma -->
             <a href="https://drachenplasma.ch" class="tile" style="position: relative; z-index: 1; overflow: visible;">
-                <div style="position: relative; height: 100%; border-radius: 42.2px; overflow: hidden; box-shadow: 0 0 25px 15px rgba(103, 39, 232, 0.6);">
-                    <img src="https://ys.cdndata.top/ya/dp.png" alt="drachenplasma" class="tile-image" style="border-radius: 42.2px 42.2px 0 0;">
+                <div style="position: relative; height: 100%; border-radius: 42.2px; overflow: hidden; box-shadow: 0 0 25px 15px rgba(103, 39, 232, 0.3);">
+                    <img src="https://ys.cdndata.top/ya/dp.png" alt="Drachenplasma" class="tile-image" style="border-radius: 42.2px 42.2px 0 0;">
                 <div class="tile-content">
                     <div class="tile-header">
                         <div class="tile-title">Drachenplasma</div>
-                        <span class="tile-status" data-status="beta">Launching Soon</span>
+                        <span class="tile-status" data-status="beta">Kommt bald</span>
                     </div>
                     <div class="tile-description">Eigene AI, Cloud Storage, Game Server</div>
                 </div>
@@ -140,9 +132,9 @@
                 <img src="" alt="" class="tile-image">
                 <div class="tile-content">
                     <div class="tile-header">
-                        <div class="tile-title">More Tiles loading ...</div>
+                        <div class="tile-title">Mehr Nebenprojekte laden ...</div>
                     </div>
-                    <div class="tile-description">Please wait ...</div>
+                    <div class="tile-description">Bitte warten ...</div>
                 </div>
             </a>
                 <!-- Alle Tiles werden per JS geladen -->
@@ -150,9 +142,9 @@
         </div>
 
 <!-- =========================================-->
-        <!-- Empfehlungen (statisch) -->
+        <!-- Drittanbieter (statisch) -->
         <div class="category">
-            <h2>Empfehlungen</h2>
+            <h2>Drittanbieter</h2>
             <div class="tiles">
 
                 <!-- CT-AI -->
@@ -211,21 +203,35 @@
                     <p class="info-label">Entwickler</p>
                     <p class="info-text">Yannik Schluep</p>
                 </div>
+<!--
+<div class="info-item">
+    <p class="info-label">Hintergrund</p>
+    <div class="custom-select-wrapper">
+        <select id="bgSelect" class="custom-select">
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="nature">Nature</option>
+            <option value="wireframe">Wireframe (Beta)</option>
+            <option value="minimal">Minimal</option>
+        </select>
+        <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+</div> -->
 
                 <div class="info-item">
                     <p class="info-label">Version</p>
-                    <p class="info-text">08.01.26</p>
+                    <p class="info-text">28.01.26</p>
                 </div>
-                
-                <div class="info-item toggle-item">
-                    <div>
-                        <p class="info-label">Custom Cursor</p>
-                        <p class="info-description">Ändert deinen Cursor zu einem Kreis</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="cursorToggle">
-                        <span class="slider"></span>
-                    </label>
+
+                <div class="info-item">
+                    <p class="info-label">Beta</p>
+                    <a href="https://beta.yannikapps.ch" class="info-link">
+                        Zur Beta wechseln
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="info-item">
@@ -241,7 +247,7 @@
                 </div>
                 
                 <div class="info-footer">
-                    <p>&copy; <span data-current-year>loading...</span> YannikApps</p>
+                    <p>&copy; <span data-current-year>lädt...</span> YannikApps</p>
                 </div>
             </div>
         </div>
@@ -252,7 +258,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links">
-                <a href="/legal" class="footer-link">Rechtliches</a>
+                <a href="https://yannik-schluep.com/legal" class="footer-link">Rechtliches</a>
                 <span class="footer-separator">•</span>
                 <a href="https://yannik-schluep.com/contact" class="footer-link">Kontakt</a>
             </div>

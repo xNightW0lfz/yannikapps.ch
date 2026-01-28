@@ -1,4 +1,92 @@
+// =========================================
+// KONFIGURATION
+// =========================================
+// Setze dies auf 'true', um nur Bilder in den Kacheln anzuzeigen (Text ausgeblendet)
+const ENABLE_IMAGE_ONLY_MODE = false;
+
+// =========================================
+// EFFECTS MANAGER
+// =========================================
+class EffectsManager {
+    constructor() {
+        this.currentEffect = null;
+        this.selectEl = document.getElementById('bgSelect');
+        this.mobileBreakpoint = 769;
+        
+        // 1. Gespeicherte Auswahl laden oder Default 'cyberpunk'
+        const saved = localStorage.getItem('yannikApps_bg') || 'nature';
+        
+        // 2. Dropdown initialisieren (falls vorhanden)
+        if (this.selectEl) {
+            this.selectEl.value = saved;
+            this.selectEl.addEventListener('change', (e) => this.switchEffect(e.target.value));
+        }
+
+        // 3. Starten
+        this.switchEffect(saved);
+
+        // 4. Resize Listener (Wechsel Desktop/Mobile)
+        window.addEventListener('resize', () => this.handleResize());
+    }
+
+    handleResize() {
+        if (window.innerWidth >= this.mobileBreakpoint) {
+            // Wenn wir wieder Desktop sind und kein Effekt läuft, starten wir ihn neu
+            // oder resizen den bestehenden
+            if (this.currentEffect) {
+                if (typeof this.currentEffect.resize === 'function') {
+                    this.currentEffect.resize();
+                }
+            } else {
+                // Neustart des gespeicherten Effekts wenn wir von Mobile kommen
+                const saved = localStorage.getItem('yannikApps_bg') || 'cyberpunk';
+                this.switchEffect(saved);
+            }
+        } else {
+            // Auf Mobile Effekte ausschalten (Performance)
+            if (this.currentEffect) {
+                this.currentEffect.destroy();
+                this.currentEffect = null;
+            }
+        }
+    }
+
+    switchEffect(name) {
+        // Mobile Check: Nichts tun, wenn Bildschirm zu klein
+        if(window.innerWidth < this.mobileBreakpoint) return;
+
+        // Alten Effekt aufräumen
+        if (this.currentEffect) {
+            this.currentEffect.destroy();
+            this.currentEffect = null;
+        }
+
+        // Speichern
+        localStorage.setItem('yannikApps_bg', name);
+
+        // Neuen Effekt starten
+        // Wir greifen auf die globalen Klassen zu, die in den anderen Dateien definiert sind
+        switch(name) {
+            case 'nature': 
+                if (window.NatureTheme) this.currentEffect = new window.NatureTheme(); 
+                break;
+            case 'minimal': 
+                if (window.MinimalTheme) this.currentEffect = new window.MinimalTheme(); 
+                break;
+            case 'wireframe': 
+                if (window.WireframeTheme) this.currentEffect = new window.WireframeTheme(); 
+                break;
+            case 'cyberpunk': 
+            default:
+                if (window.CyberpunkTheme) this.currentEffect = new window.CyberpunkTheme(); 
+                break;
+        }
+    }
+}
+
+// =========================================
 // Custom Cursor Implementation
+// =========================================
 (() => {
     // Create and style the custom cursor element
     const cursor = document.createElement('div');
@@ -8,6 +96,7 @@
 
     const cursorToggle = document.getElementById('cursorToggle');
 
+    // Wenn kein Toggle da ist, Cursor normal lassen und abbrechen
     if (!cursorToggle) {
         document.body.style.cursor = 'auto';
         return;
@@ -64,7 +153,9 @@
     }
 })();
 
-// URL to the Google Sheets data (CSV format)
+// =========================================
+// TILES LOGIC (Google Sheets)
+// =========================================
 const TILES_CSV_URL =
     'https://docs.google.com/spreadsheets/d/1BSvSMhiEpOc-USXOhCSoyaV3NfD3MxX7QPTNUWH2ZCU/export?format=csv';
 
@@ -133,15 +224,7 @@ async function fetchTilesData() {
             console.error('[Tiles] HTTP-Fehler beim Laden der CSV:', response.status, response.statusText);
             throw new Error('HTTP error');
         }
-
-        const csvText = await response.text();
-
-        if (/^\s*</.test(csvText)) {
-            console.error('[Tiles] Sieht nach HTML aus, nicht nach CSV. ' +
-                'Ist das Sheet öffentlich / für das Web veröffentlicht?');
-        }
-
-        return parseTilesCsv(csvText);
+        return parseTilesCsv(await response.text());
     } catch (err) {
         console.error('[Tiles] Fehler beim Laden der Tiles-CSV:', err);
         throw err;
@@ -150,17 +233,14 @@ async function fetchTilesData() {
 
 function renderTiles(tiles) {
     const container = document.getElementById('tilesContainer');
-    if (!container) {
-        console.error('[Tiles] tilesContainer (Nebenprojekte) nicht gefunden.');
-        return;
-    }
+    if (!container) return;
 
     container.innerHTML = '';
 
     if (!tiles || tiles.length === 0) {
         const msg = document.createElement('p');
         msg.className = 'no-tiles-message';
-        msg.textContent = 'Keine Nebenprojekte geladen. Prüfe Google-Sheet-Link/Berechtigungen.';
+        msg.textContent = 'Keine Nebenprojekte geladen.';
         container.appendChild(msg);
         return;
     }
@@ -195,10 +275,8 @@ function renderTiles(tiles) {
         if (tile.showStatus && tile.status) {
             const statusEl = document.createElement('span');
             statusEl.className = 'tile-status';
-
             const rawStatus = tile.status.toLowerCase();
             const displayStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
-
             statusEl.textContent = displayStatus;
             statusEl.setAttribute('data-status', rawStatus);
             header.appendChild(statusEl);
@@ -229,16 +307,11 @@ async function initTilesFromSheet() {
     } catch (err) {
         const container = document.getElementById('tilesContainer');
         if (container) {
-            container.innerHTML =
-                '<p class="no-tiles-message">Nebenprojekte werden geladen ...</p>';
+            container.innerHTML = '<p class="no-tiles-message">Nebenprojekte werden geladen ...</p>';
         }
     }
 }
 
-/**
- * Updates all elements with data-current-year attribute
- * to show the current year
- */
 function updateCurrentYear() {
     const year = new Date().getFullYear();
     document.querySelectorAll('[data-current-year]').forEach(el => {
@@ -246,13 +319,25 @@ function updateCurrentYear() {
     });
 }
 
-// Initialize everything when the DOM is fully loaded
+// =========================================
+// INIT & EVENT LISTENERS
+// =========================================
 document.addEventListener('DOMContentLoaded', function () {
-    // Load and display project tiles from Google Sheets
+    // 1. Image Only Mode Check
+    if (typeof ENABLE_IMAGE_ONLY_MODE !== 'undefined' && ENABLE_IMAGE_ONLY_MODE) {
+        document.body.classList.add('image-only-mode');
+    }
+
+    // 2. Load Tiles
     initTilesFromSheet();
-    // Update the current year in the footer
+    
+    // 3. Footer Year
     updateCurrentYear();
 
+    // 4. Initialize Effects Manager
+    window.effectsManager = new EffectsManager();
+
+    // 5. Info Overlay Logic
     const infoOverlay = document.getElementById('infoOverlay');
     const infoButton = document.getElementById('infoButton');
     const closeButton = document.getElementById('closeInfoOverlay');
@@ -261,12 +346,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function showOverlay() {
         if (isAnimating) return;
         isAnimating = true;
-
         document.body.classList.add('overlay-open');
         infoOverlay.style.display = 'flex';
-
         void infoOverlay.offsetWidth;
-
         setTimeout(() => {
             infoOverlay.classList.add('show');
             isAnimating = false;
@@ -276,9 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function hideOverlay() {
         if (isAnimating) return;
         isAnimating = true;
-
         infoOverlay.classList.remove('show');
-
         setTimeout(() => {
             infoOverlay.style.display = 'none';
             document.body.classList.remove('overlay-open');
@@ -286,18 +366,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 200);
     }
 
-    if (infoButton) {
-        infoButton.addEventListener('click', showOverlay);
-    }
-    if (closeButton) {
-        closeButton.addEventListener('click', hideOverlay);
-    }
-
+    if (infoButton) infoButton.addEventListener('click', showOverlay);
+    if (closeButton) closeButton.addEventListener('click', hideOverlay);
     if (infoOverlay) {
         infoOverlay.addEventListener('click', (e) => {
-            if (e.target === infoOverlay) {
-                hideOverlay();
-            }
+            if (e.target === infoOverlay) hideOverlay();
         });
     }
 
@@ -307,3 +380,59 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+// Fix for iOS Back-Button Cache
+window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+        setTimeout(() => {
+            if (window.effectsManager) window.effectsManager.handleResize();
+        }, 10);
+    }
+});
+
+// Image-Loading / Skeleton für .tile-image
+(function () {
+    function initTileImages() {
+        const images = document.querySelectorAll('.tile-image');
+
+        images.forEach(img => {
+            // Nur verarbeiten, wenn noch kein Container drum herum ist
+            if (!img.parentElement.classList.contains('tile-image-container')) {
+                const container = document.createElement('div');
+                container.className = 'tile-image-container';
+
+                // Bild in neuen Container verschieben
+                img.parentNode.insertBefore(container, img);
+                container.appendChild(img);
+
+                // Placeholder einfügen
+                const placeholder = document.createElement('div');
+                placeholder.className = 'image-placeholder';
+                container.appendChild(placeholder);
+
+                img.onload = function () {
+                    img.classList.add('loaded');
+                    placeholder.style.display = 'none';
+                };
+
+                img.onerror = function () {
+                    console.error('Failed to load image:', img.src);
+                    placeholder.style.display = 'none';
+                };
+
+                // Falls das Bild bereits gecached ist
+                if (img.complete) {
+                    img.dispatchEvent(new Event('load'));
+                }
+            }
+        });
+    }
+
+    // global verfügbar machen, damit script.js es nach dem Rendern aufrufen kann
+    window.initTileImages = initTileImages;
+
+    // Beim ersten Laden einmal ausführen (für statische Bilder)
+    document.addEventListener('DOMContentLoaded', function () {
+        initTileImages();
+    });
+})();
