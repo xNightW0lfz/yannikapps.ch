@@ -51,14 +51,12 @@
       }
     }
     </script>
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/image-loading.css" />
-    <script src="bg.js/sun-rain.js"></script>
-    <script src="bg.js/cyberpunk.js"></script>
-    <script src="bg.js/minimal.js"></script>
-    <script src="bg.js/wireframe.js"></script>
-    <script src="js/script.js" defer></script>
-
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/script.js" defer></script>
+    <script src="js-bg/sun-rain.js"></script>
+    <script src="js-bg/cyberpunk.js"></script>
+    <script src="js-bg/minimal.js"></script>
+    <script src="js-bg/wireframe.js"></script>
 </head>
 <body>
 
@@ -85,7 +83,7 @@
                     <div class="tile-header">
                         <div class="tile-title">Yannik Schluep</div>
                     </div>
-                    <div class="tile-description">Eine Website mit Infos zu mir</div>
+                    <div class="tile-description">Eine Website über mich</div>
                 </div>
                 </div>
             </a>
@@ -112,7 +110,7 @@
                         <div class="tile-title">Drachenplasma</div>
                         <span class="tile-status" data-status="beta">Kommt bald</span>
                     </div>
-                    <div class="tile-description">Eigene AI, Cloud Storage, Game Server</div>
+                    <div class="tile-description">Eigene AI, Cloud Storage und Game Server</div>
                 </div>
                 </div>
             </a>
@@ -127,7 +125,7 @@
             <h2>Nebenprojekte</h2>
             <div class="tiles" id="tilesContainer">
 
-             <!-- More loading ... -->
+             <!-- Mehr laden ... -->
             <a href="" class="tile">
                 <img src="" alt="" class="tile-image">
                 <div class="tile-content">
@@ -137,7 +135,7 @@
                     <div class="tile-description">Bitte warten ...</div>
                 </div>
             </a>
-                <!-- Alle Tiles werden per JS geladen -->
+                <!-- Alle Nebenprojekte werden per JS geladen -->
             </div>
         </div>
 
@@ -203,35 +201,23 @@
                     <p class="info-label">Entwickler</p>
                     <p class="info-text">Yannik Schluep</p>
                 </div>
-<!--
+
 <div class="info-item">
     <p class="info-label">Hintergrund</p>
     <div class="custom-select-wrapper">
         <select id="bgSelect" class="custom-select">
-            <option value="cyberpunk">Cyberpunk</option>
             <option value="nature">Nature</option>
-            <option value="wireframe">Wireframe (Beta)</option>
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="wireframe">Wireframe</option>
             <option value="minimal">Minimal</option>
         </select>
         <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
     </div>
-</div> -->
+</div>
 
                 <div class="info-item">
                     <p class="info-label">Version</p>
-                    <p class="info-text">28.01.26</p>
-                </div>
-
-                <div class="info-item">
-                    <p class="info-label">Beta</p>
-                    <a href="https://beta.yannikapps.ch" class="info-link">
-                        Zur Beta wechseln
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
+                    <p class="info-text">29.01.26</p>
                 </div>
 
                 <div class="info-item">
@@ -258,7 +244,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links">
-                <a href="https://yannik-schluep.com/legal" class="footer-link">Rechtliches</a>
+                <a href="/legal" class="footer-link">Rechtliches</a>
                 <span class="footer-separator">•</span>
                 <a href="https://yannik-schluep.com/contact" class="footer-link">Kontakt</a>
             </div>
