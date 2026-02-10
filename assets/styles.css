@@ -110,6 +110,7 @@ h1 {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    opacity: 0; /* Start invisible for animation */
 }
 
 .category h2 {
@@ -146,6 +147,8 @@ h1 {
     text-decoration: none;
     color: #f0f0f0;
     animation: float 5s ease-in-out infinite;
+    position: relative;
+    /* overflow: hidden; standard - wird bei glow überschrieben via JS style */
 }
 
 .tile:nth-child(odd) { animation-delay: 0.3s; }
@@ -181,13 +184,11 @@ h1 {
     font-weight: 600;
     color: #fff;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    /* Flexbox für das Datum */
     display: flex;
     align-items: baseline;
     gap: 8px;
 }
 
-/* Neuer Style für das Datum */
 .tile-date {
     font-size: 0.75rem;
     font-weight: 400;
@@ -203,7 +204,7 @@ h1 {
 }
 
 /* =========================================
-   Status Badges
+   Status Badges & Offline Logic
    ========================================= */
 .tile-status {
     display: inline-block;
@@ -214,7 +215,6 @@ h1 {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    /* Default / Beta Style */
     background-color: black;
     color: #ffbf00;
     border: 1px solid rgba(255, 193, 7, 0.3);
@@ -230,7 +230,6 @@ h1 {
     border-color: rgba(220, 53, 69, 0.3);
 }
 
-/* Offline Pulse & Glow & Red Overlay */
 @keyframes pulse-offline {
     0%, 100% { box-shadow: 0 0 16px 2px rgba(255, 0, 26, 0.75); }
     70% { box-shadow: 0 0 36px 14px rgba(255, 0, 26, 0.45); }
@@ -239,22 +238,20 @@ h1 {
 .tile:has(.tile-status[data-status="offline"]) {
     animation: pulse-offline 2s infinite;
     border-color: rgba(255, 0, 26, 0.6) !important;
-    cursor: not-allowed !important; /* Wichtig: Zeigt an, dass nicht klickbar */
-    position: relative; /* Für ::after Positionierung */
+    cursor: not-allowed !important;
+    position: relative;
 }
 
 .tile:has(.tile-status[data-status="offline"]):hover {
-    transform: none; /* Kein Hover-Effekt (Bewegung) bei Offline */
+    transform: none;
     box-shadow: 0 14px 50px rgba(255, 0, 26, 0.38) !important;
 }
 
-/* Overlay Logic: Standardmäßig rot, bei Hover röter */
 .tile:has(.tile-status[data-status="offline"])::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    /* Standard Rötlicher Ton (wie vorher beim Hover) */
     background: rgba(255, 0, 26, 0.2); 
     pointer-events: none;
     transition: background 0.3s ease;
@@ -262,18 +259,15 @@ h1 {
 }
 
 .tile:has(.tile-status[data-status="offline"]):hover::after {
-    /* Bei Hover noch roter */
     background: rgba(255, 0, 26, 0.4); 
 }
 
-/* Bild-Filter bei Offline */
 .tile:has(.tile-status[data-status="offline"]) .tile-image {
     filter: sepia(0.25) hue-rotate(-12deg) saturate(1.8) brightness(0.7);
     transition: filter 0.3s ease;
 }
 
 .tile:has(.tile-status[data-status="offline"]):hover .tile-image {
-    /* Bei Hover Bild noch dunkler/roter */
     filter: sepia(0.4) hue-rotate(-12deg) saturate(2) brightness(0.5);
 }
 
@@ -306,11 +300,6 @@ button, .button, .close-button {
 .info-button:hover {
     background: rgba(255, 255, 255, 0.1);
     transform: scale(1.15);
-}
-
-/* Anpassung wenn Beta-Banner aktiv ist */
-body.beta-mode .info-button {
-    top: 90px; /* Verschiebung nach unten */
 }
 
 /* Overlay */
@@ -445,61 +434,6 @@ body.beta-mode .info-button {
 .footer-link:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
 .footer-copyright { color: rgba(255, 255, 255, 0.6); font-size: 0.95rem; }
 
-/* =========================================
-   Beta Banner
-   ========================================= */
-.beta-banner {
-    width: 100%;
-    background: linear-gradient(90deg, #ff8c00, #ff4500);
-    color: white;
-    text-align: center;
-    padding: 15px 20px;
-    font-weight: 600;
-    position: relative;
-    z-index: 10001;
-    box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
-}
-
-.beta-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.beta-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.beta-btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-decoration: none;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-.beta-btn:hover {
-    background: rgba(255, 255, 255, 0.35);
-    transform: translateY(-1px);
-}
-
-.beta-btn-secondary {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-body.beta-mode { padding-top: 0 !important; }
 
 /* =========================================
    Image Loading
@@ -531,6 +465,171 @@ body.beta-mode { padding-top: 0 !important; }
 }
 
 /* =========================================
+   LOADING SCREEN & ANIMATIONS
+   ========================================= */
+body.loading-active {
+    overflow: hidden;
+}
+
+#loadingScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    
+    background: rgba(10, 10, 20, 0.4); 
+    backdrop-filter: blur(60px);       
+    -webkit-backdrop-filter: blur(60px);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                visibility 0.8s linear,
+                backdrop-filter 0.8s ease;
+}
+
+#loadingScreen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    backdrop-filter: blur(0px); 
+    pointer-events: none;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+#loaderCanvas {
+    width: 280px;
+    height: 280px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 35px rgba(0, 150, 255, 0.5));
+}
+
+.text-wrapper {
+    height: 30px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+#loadingText {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#loadingText.fade-cycle {
+    opacity: 0;
+    transform: translateY(5px);
+}
+
+.loader-progress-bar {
+    width: 220px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+#loaderProgressFill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00C6FF, #9D50BB); 
+    box-shadow: 0 0 15px #00C6FF;
+    transition: width 0.3s linear; /* Schneller für optimized loading */
+}
+
+/* =========================================
+   Maintenance Mode Message
+   ========================================= */
+#maintenanceMessage {
+    text-align: center;
+    color: #ff4d4d;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.15);
+    animation: fadeIn 0.5s ease;
+}
+
+#maintenanceMessage h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #ff4d4d;
+}
+
+#maintenanceMessage p {
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.reload-btn {
+    background: rgba(255, 77, 77, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 77, 77, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+.reload-btn:hover {
+    background: rgba(255, 77, 77, 0.4);
+}
+
+/* =========================================
+   CONTENT ANIMATIONS (Fly In)
+   ========================================= */
+#mainWrapper {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#mainWrapper.content-visible {
+    opacity: 1;
+}
+
+#mainWrapper.content-visible .category {
+    animation: smoothFlyIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0; 
+}
+
+#mainWrapper.content-visible .category:nth-child(1) { animation-delay: 0.05s; } 
+#mainWrapper.content-visible .category:nth-child(2) { animation-delay: 0.2s; }
+#mainWrapper.content-visible .category:nth-child(3) { animation-delay: 0.35s; }
+#mainWrapper.content-visible .category:nth-child(4) { animation-delay: 0.5s; }
+
+@keyframes smoothFlyIn {
+    0% {
+        opacity: 0;
+        transform: translateY(60px) scale(0.96);
+        filter: blur(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* =========================================
    Responsive
    ========================================= */
 @media (max-width: 1800px) { .container { max-width: 1400px; } }
@@ -551,7 +650,6 @@ body.beta-mode { padding-top: 0 !important; }
     .category h2 { font-size: 2.5rem; padding: 12px 0; }
     .footer { margin: 30px auto 15px; padding: 0 15px; }
     .footer-content { width: calc(100% - 30px); }
-    .beta-content { flex-direction: column; gap: 10px; }
 }
 
 @media (max-width: 600px) {
@@ -563,4 +661,5 @@ body.beta-mode { padding-top: 0 !important; }
 @media (max-width: 480px) {
     h1 { font-size: 3.2rem; }
     .info-button { top: 10px; right: 10px; width: 44px; height: 44px; }
+    #loaderCanvas { width: 220px; height: 220px; }
 }
